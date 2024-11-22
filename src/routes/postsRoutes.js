@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import {cadastrar, listar, uploadImagem} from "../controllers/postsController.js";
+import {cadastrar, listar, uploadImagem, atualizarPost} from "../controllers/postsController.js";
 
 //**Constante para manter o nome do arquivo que está sendo upado. Configuração no windows */
 const storage = multer.diskStorage({
@@ -23,6 +23,8 @@ const routes = (app) =>{
     app.post("/posts", cadastrar)
     //**Rota para cadastrar posts com upload de imagem */
     app.post("/upload", upload.single("imagem"), uploadImagem)
+
+    app.put("/upload/:id", atualizarPost)
 };
 
 export default routes;
