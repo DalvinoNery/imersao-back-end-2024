@@ -1,6 +1,12 @@
 import express from "express";
 import multer from "multer";
+import cors from "cors";
 import {cadastrar, listar, uploadImagem, atualizarPost} from "../controllers/postsController.js";
+
+const corsOptions = {
+    origin:"http://localhost:8000",
+    optionsSuccessStartus:200
+};
 
 //**Constante para manter o nome do arquivo que está sendo upado. Configuração no windows */
 const storage = multer.diskStorage({
@@ -18,6 +24,7 @@ const routes = (app) =>{
     // **Middleware para interpretar JSON no corpo das requisições**
     app.use(express.json());
     // **Rota para buscar todos os posts**
+    app.use(cors(corsOptions))
     app.get("/posts", listar);
     //**Rota para cadastrar um post**
     app.post("/posts", cadastrar)
