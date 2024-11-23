@@ -3,11 +3,16 @@ import {getTodosPosts, salvar, atualizar} from "../models/postsModel.js";
 import gerarDescricaoComGemini from "../services/geminiService.js";
 
 export async function listar(req, res) {
-    // Chamando a função para buscar os posts
-    const resultado = await getTodosPosts();
-    // Enviando os posts como resposta em formato JSON com status 200 (sucesso)
-    res.status(200).json(resultado);
-};
+    try {
+        // Chamando a função para buscar os posts
+        const resultado = await getTodosPosts();
+        // Enviando os posts como resposta em formato JSON com status 200 (sucesso)
+        res.status(200).json(resultado);
+    } catch (erro) {
+        console.error(erro.message);
+        res.status(500).json({ Erro: "Falha na requisição" });
+    }
+}
 
 export async function cadastrar(req, res) {
     const novoPost = req.body;
@@ -49,7 +54,7 @@ export async function atualizarPost(req, res) {
         const post = {
             imgUrl: urlImagem,
             descricao: descricao,
-            alt:req.body.alt
+            alt: req.body.alt
         };
         const postCriado = await  atualizar(id, post); 
         res.status(200).json(postCriado);
